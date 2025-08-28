@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ຄໍາອວຍພອນໃຫ້ເຈົ້າ</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Phetsarath:wght@400;700&display=swap');
+        :root {
+            --ink: #2b2b2b;
+            --rose: #ff5a86
+        }
+
+        * {
+            box-sizing: border-box
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            display: grid;
+            place-items: center;
+            background: radial-gradient(#fff, #ffeef4);
+            font-family: "Phetsarath", sans-serif;
+            color: var(--ink)
+        }
+
+        .panel {
+            max-width: 860px;
+            margin: 2rem;
+            padding: 2rem;
+            border-radius: 18px;
+            background: #fff;
+            box-shadow: 0 12px 30px rgba(0, 0, 0, .12)
+        }
+
+        h1 {
+            margin-top: 0
+        }
+
+        .type {
+            font-size: 1.2rem;
+            line-height: 1.7
+        }
+
+        .cursor {
+            display: inline-block;
+            width: 2px;
+            height: 1.2em;
+            background: #222;
+            animation: blink 1s steps(2, start) infinite;
+            margin-left: 3px
+        }
+
+        @keyframes blink {
+            to {
+                opacity: 0
+            }
+        }
+
+        .actions {
+            margin-top: 1rem;
+            display: flex;
+            gap: .6rem;
+            flex-wrap: wrap
+        }
+
+        .btn {
+            border: 0;
+            padding: .8rem 1rem;
+            border-radius: 12px;
+            font-weight: 700;
+            cursor: pointer
+        }
+
+        .btn-rose {
+            background: var(--rose);
+            color: #fff
+        }
+
+        .btn-ghost {
+            background: #ffe3ec;
+            color: #c6285b
+        }
+
+        canvas {
+            position: fixed;
+            inset: 0;
+            pointer-events: none
+        }
+    </style>
+</head>
+<body>
+     <canvas id="confetti"></canvas>
+    <div class="panel">
+        <h1>🎂 ອ້າຍຢາກບອກວ່າ🎂</h1>
+        <div id="type" class="type"></div><span class="cursor"></span>
+        <div class="actions">
+            <button class="btn btn-rose" id="play">ກົດນີ້ເພື່ອອ່ານ</button>
+            <button class="btn btn-ghost" id="boom">🎉 ໂຍນ confetti</button>
+            <a class="btn btn-ghost" href="surp.html".html">ສຸດທ້າຍ »</a>
+        </div>
+    </div>
+
+    <script>
+        const text = [
+            "ສຸກສັນວັນເກີດນ່າເເຟນອ້າຍ,",
+            "ຂໍໃຫ້ສຸຂະພາບແຂງແຮງ ແລະ ຂໍໃຫ້ຍິ້ມທຸກມື້ຮອຍຍີ້ມຂີ້ດື້ສົດໃສເເຮງຂີ້ດື້ຕອ້ງຍີ້ມຫຼາຍໆນ່າາ.",
+            "ໃຫ້ຄວາມຝັນຂອງຂີ້ດື້ຄ່ອຍໆເປັນຈິງໂດຍມີອ້າຍຄ່ອຍຢູ່ຂ້າງໆບໍ່ວ່າຈະເຈິເລື່ອງຫຍັງມາອ້າຍຈະຢູ່ຂ້າງໆຂີ້ດື້.",
+            "ຮັກຂີ້ດື້ນ່າາາ ຄົນຮູ້ຂອງອ້າຍ."
+        ];
+        const el = document.getElementById('type');
+        const play = document.getElementById('play');
+        const boom = document.getElementById('boom');
+
+        function typeLines(lines, i = 0) {
+            if (i >= lines.length) return;
+            let s = lines[i], j = 0;
+            const li = document.createElement('p'); el.appendChild(li);
+            const t = setInterval(() => {
+                li.textContent = s.slice(0, ++j);
+                if (j === s.length) { clearInterval(t); setTimeout(() => typeLines(lines, i + 1), 350); }
+            }, 35);
+        }
+
+        play.addEventListener('click', () => {
+            el.innerHTML = ""; typeLines(text);
+        });
+
+        // minimal confetti
+        const canvas = document.getElementById('confetti');
+        const ctx = canvas.getContext('2d');
+        let W, H; function resize() { W = canvas.width = innerWidth; H = canvas.height = innerHeight; } resize(); addEventListener('resize', resize);
+        let parts = [];
+        function Confetti() { this.x = Math.random() * W; this.y = -20; this.r = 4 + Math.random() * 6; this.c = `hsl(${Math.random() * 360},90%,60%)`; this.vy = 2 + Math.random() * 3; this.vx = -2 + Math.random() * 4; this.rot = Math.random() * Math.PI; this.vr = .02 + Math.random() * .05; }
+        function step() {
+            ctx.clearRect(0, 0, W, H);
+            parts.forEach(p => {
+                p.x += p.vx; p.y += p.vy; p.rot += p.vr;
+                ctx.save(); ctx.translate(p.x, p.y); ctx.rotate(p.rot);
+                ctx.fillStyle = p.c; ctx.fillRect(-p.r, -p.r, p.r * 2, p.r * 2); ctx.restore();
+            });
+            parts = parts.filter(p => p.y < H + 20);
+            requestAnimationFrame(step);
+        }
+        boom.addEventListener('click', () => { for (let i = 0; i < 160; i++) parts.push(new Confetti()); });
+        step();
+    </script>
+</body>
+</html>

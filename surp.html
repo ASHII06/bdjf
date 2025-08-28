@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ປະຫວັນນ້ອຍໆ</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Phetsarath:wght@400;700&display=swap');
+        :root {
+            --ink: #2b2b2b;
+            --bg: #fff7fb;
+            --rose: #ff6fa7
+        }
+
+        * {
+            box-sizing: border-box
+        }
+
+        body {
+            margin: 0;
+            background: var(--bg);
+            min-height: 100vh;
+            font-family: "Phetsarath", sans-serif;
+            color: var(--ink);
+        }
+
+        header {
+            position: sticky;
+            top: 0;
+            background: #ffffffcc;
+            backdrop-filter: blur(8px);
+            padding: .8rem 1rem;
+            border-bottom: 1px solid #f5c9d6
+        }
+
+        nav a {
+            margin-right: .5rem;
+            text-decoration: none;
+            color: #c6285b;
+            padding: .35rem .7rem;
+            border-radius: 999px
+        }
+
+        nav a:hover {
+            background: #ffecf2
+        }
+
+        .wrap {
+            max-width: 880px;
+            margin: 1.2rem auto;
+            padding: 1rem
+        }
+
+        .card {
+            position: relative;
+            background: #fff;
+            padding: 1.6rem;
+            border-radius: 18px;
+            box-shadow: 0 12px 30px rgba(0, 0, 0, .1);
+            overflow: hidden
+        }
+
+        h1 {
+            margin-top: 0
+        }
+
+        .note {
+            font-size: 1.1rem;
+            line-height: 1.9
+        }
+
+        .hearts {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            overflow: hidden
+        }
+
+        .heart {
+            position: absolute;
+            font-size: 18px;
+            animation: fall linear forwards
+        }
+
+        @keyframes fall {
+            to {
+                transform: translateY(110vh) rotate(360deg);
+                opacity: .2
+            }
+        }
+
+        .reveal {
+            margin-top: 1rem;
+            display: flex;
+            gap: .6rem;
+            flex-wrap: wrap
+        }
+
+        .btn {
+            border: 0;
+            padding: .8rem 1rem;
+            border-radius: 12px;
+            font-weight: 700;
+            cursor: pointer
+        }
+
+        .btn-rose {
+            background: var(--rose);
+            color: #fff
+        }
+
+        .btn-ghost {
+            background: #ffe3ec;
+            color: #c6285b
+        }
+
+        .surprise {
+            display: none;
+            margin-top: 1rem;
+            padding: 1rem;
+            border: 1px dashed #ffc7db;
+            border-radius: 14px;
+            background: #fff7fb
+        }
+
+        .small {
+            opacity: .75
+        }
+    </style>
+</head>
+<body>
+    <header class="wrap">
+        <nav>
+            <a href="index.html">ໜ້າເເລກ</a>
+            
+        </nav>
+    </header>
+
+    <div class="wrap">
+        <div class="card">
+            <div class="hearts" id="hearts"></div>
+            <h1>💌ສຸດທ້າຍນີ້</h1>
+            ຂໍໃຫ້ທຸກໆປີຂອງຂີ້ດື້ ພົບເເຕ່ສີ່ງດີໆເຂົ້າມາໃນຊີວິດ ອ້າຍດີໃຈທີ່ມີຂີ້ດື້ເຂົ້າມາໃນຊີວິດ ຂີ້ດື້ເຮັດໃຫ້ອ້າຍມີເປົ່າໝາຍຂີ້ດື້ຄ່ອຍຊັບພອດອ້າຍຢູ່ຕະຫລອດ
+            ອ້າຍຫວັງວ່າສິໄດ້ຢູ່ອວຍພອນໃຫ້ຂີ້ດື້ເເບບນີ້ໃນທຸກໆການເຕີບໃຫ່ຍຂອງຂື້ດື້ ສຸກສັນວັນເກີດນ່າາຄົນຮູ້ 
+            <p class="note">
+              
+            </p>
+            <div class="reveal">
+                <button class="btn btn-rose" id="rain">ຝົນຮູບໃຈ</button>
+            
+        </div>
+    </div>
+
+    <script>
+        const hearts = document.getElementById('hearts');
+        document.getElementById('rain').addEventListener('click', () => {
+            for (let i = 0; i < 80; i++) {
+                const h = document.createElement('div');
+                h.className = 'heart'; h.textContent = Math.random() > 0.5 ? '💗' : '💖';
+                h.style.left = Math.random() * 100 + 'vw';
+                h.style.top = '-5vh';
+                h.style.animationDuration = (5 + Math.random() * 4) + 's';
+                hearts.appendChild(h);
+                setTimeout(() => h.remove(), 10000);
+            }
+        });
+        document.getElementById('gift').addEventListener('click', () => {
+            document.getElementById('s').style.display = 'block';
+        });
+    </script>
+</body>
+</html>
